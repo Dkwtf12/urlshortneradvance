@@ -184,6 +184,14 @@ async def start(client, message):
             await asyncio.sleep(1) 
         await sts.delete()
         return
+    elif data.split("-", 1)[0] == "DKBOTZ":
+        await message.reply_photo(
+            photo=random.choice(PICS),
+            caption=f'Hello {message.from_user.mention}\n\nYour Verification Completed\n\nUser ID : {message.from_user.id}\nDC ID : {message.from_user.dc_id}\n\nUser ID : {message.from_user.first_name}'),
+            reply_markup=reply_markup,
+            quote=True,
+            parse_mode=enums.ParseMode.HTML
+        ) 
     elif data.split("-", 1)[0] == "DSTORE":
         sts = await message.reply("<b>Please wait...</b>")
         b_string = data.split("-", 1)[1]
