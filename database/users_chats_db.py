@@ -47,6 +47,13 @@ class Database:
         count = await self.col.count_documents({})
         return count
     
+            
+    async def remove_verify(self, id):
+        dk = dict(
+            is_verify=True,
+            bot_channnel="https://tme/DKBOTZ"
+        )
+        await self.col.update_one({'id': id}, {'$set': {'verify': dk}})
     async def remove_ban(self, id):
         ban_status = dict(
             is_banned=False,
