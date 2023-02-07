@@ -18,6 +18,9 @@ class Database:
             ban_status=dict(
                 is_banned=False,
                 ban_reason="",
+            verify=dict(
+                is_verify=False,
+                bot_channnel="https://tme/DKBOTZ",
             ),
         )
 
