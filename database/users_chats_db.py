@@ -53,7 +53,7 @@ class Database:
             is_verify=True,
             bot_channnel="https://tme/DKBOTZ"
         )
-        await self.col.update_one({'id': user_id}, {'$set': {'verify': dk}})
+        await self.col.update_one({'id': user_id}, {'$set': {'verify_status': dk}})
             
     async def get_verify(self, id):
         default = dict(
