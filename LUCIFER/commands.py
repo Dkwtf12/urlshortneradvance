@@ -18,6 +18,11 @@ logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
 
+async def url_verify(client, message):
+    url = await db.verify(message.from_user.id)
+    if url["is_verify"]:
+        
+        
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
