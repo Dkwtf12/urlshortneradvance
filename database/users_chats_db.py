@@ -19,8 +19,9 @@ class Database:
                 is_banned=False,
                 ban_reason="",
             verify=dict(
-                is_verify=False,
+                is_verify=True,
                 bot_channnel="https://tme/DKBOTZ",
+                time="https://tme/DKBOTZ",
             ),
         )
 
@@ -47,6 +48,22 @@ class Database:
         count = await self.col.count_documents({})
         return count
     
+    async def add_verify(self, user_id, bot_channnel="https://tme/DKBOTZ"):
+        dk = dict(
+            is_verify=True,
+            bot_channnel="https://tme/DKBOTZ"
+        )
+        await self.col.update_one({'id': user_id}, {'$set': {'verify': dk}})
+            
+    async def get_verify(self, id):
+        default = dict(
+            is_verify=False,
+            bot_channnel="https://tme/DKBOTZ"
+        )
+        user = await self.col.find_one({'id':int(id)})
+        if not user:
+            return default
+        return user.get('verify_status', default)
             
     async def remove_verify(self, id):
         dk = dict(
