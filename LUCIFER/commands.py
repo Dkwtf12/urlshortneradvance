@@ -13,14 +13,52 @@ from utils import get_settings, get_size, is_subscribed, save_group_settings, te
 from database.connections_mdb import active_connection
 import re
 import json
+import asyncio
+from bs4 import BeautifulSoup
+import requests
+import aiohttp
 import base64
 logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
 
+async def get_shortlink(link):
+    https = link.split(":")[0]
+    if "http" == https:
+        https = "https"
+        link = link.replace("http", https)
+    url = f'http://shorturllink.in/api'
+    params = {'api': '240cd25a96c8a5e49b9e45232e2f9581f4e779a4',
+              'url': link,
+              }
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, params=params, raise_for_status=True, ssl=False) as response:
+                data = await response.json()
+                if data["status"] == "success":
+                    return data['shortenedUrl']
+                else:
+                    logger.error(f"Error: {data['message']}")
+                    return f'https://shorturllink.in/api?api=240cd25a96c8a5e49b9e45232e2f9581f4e779a4&url={link}'
+
+    except Exception as e:
+        logger.error(e)
+        return f'https://shorturllink.in/api?api=240cd25a96c8a5e49b9e45232e2f9581f4e779a4&url={link}'
+
 async def url_verify(client, message):
     url = await db.verify(message.from_user.id)
     if url["is_verify"]:
+        link = f'https://t.me/{temp.U_NAME}?start=DKBOTZ-message.from_user.id'
+        dkbotz = await get_shortlink(link)
+        await message.reply_photo(
+            photo=random.choice(PICS),
+            caption=f"Please Verify With This Link : {dkbotz}",
+            quote=True,
+            parse_mode=enums.ParseMode.HTML
+        )
+        return
+        
         
         
 @Client.on_message(filters.command("start") & filters.incoming)
@@ -190,6 +228,7 @@ async def start(client, message):
         await sts.delete()
         return
     elif data.split("-", 1)[0] == "DKBOTZ":
+        
         await message.reply_photo(
             photo=random.choice(PICS),
             caption=f'Hello {message.from_user.mention}\n\nYour Verification Completed\n\nUser ID : {message.from_user.id}\nDC ID : {message.from_user.dc_id}\n\nUser ID : {message.from_user.first_name}'),
