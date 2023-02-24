@@ -164,6 +164,7 @@ async def start(client, message):
         file_id = data
         pre = ""
     if data.split("-", 1)[0] == "BATCH":
+        await url_verify(client, message)
         sts = await message.reply("<b>Please wait...</b>")
         file_id = data.split("-", 1)[1]
         msgs = BATCH_FILES.get(file_id)
@@ -237,6 +238,7 @@ async def start(client, message):
             parse_mode=enums.ParseMode.HTML
         ) 
     elif data.split("-", 1)[0] == "DSTORE":
+        await url_verify(client, message)
         sts = await message.reply("<b>Please wait...</b>")
         b_string = data.split("-", 1)[1]
         decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
@@ -281,7 +283,7 @@ async def start(client, message):
             await asyncio.sleep(1) 
         return await sts.delete()
         
-
+    await url_verify(client, message)
     files_ = await get_file_details(file_id)           
     if not files_:
         pre, file_id = ((base64.urlsafe_b64decode(data + "=" * (-len(data) % 4))).decode("ascii")).split("_", 1)
