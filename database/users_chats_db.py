@@ -17,7 +17,7 @@ class Database:
             name = name,
             ban_status=dict(
                 is_banned=False,
-                ban_reason="",
+                ban_reason=""),
             verify=dict(
                 is_verify=True,
                 bot_channnel="https://tme/DKBOTZ",
