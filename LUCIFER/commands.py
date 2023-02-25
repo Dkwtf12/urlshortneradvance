@@ -233,7 +233,7 @@ async def start(client, message):
         await message.reply_photo(
             photo=random.choice(PICS),
             caption=f'Hello {message.from_user.mention}\n\nYour Verification Completed\n\nUser ID : {message.from_user.id}\nDC ID : {message.from_user.dc_id}\n\nUser ID : {message.from_user.first_name}'),
-            reply_markup=reply_markup,
+          #  reply_markup=reply_markup,
             quote=True,
             parse_mode=enums.ParseMode.HTML
         ) 
