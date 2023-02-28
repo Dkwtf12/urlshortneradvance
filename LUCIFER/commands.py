@@ -229,14 +229,12 @@ async def start(client, message):
         await sts.delete()
         return
     elif data.split("-", 1)[0] == "DKBOTZ":
-        
         await message.reply_photo(
             photo=random.choice(PICS),
-            caption=f'Hello {message.from_user.mention}\n\nYour Verification Completed\n\nUser ID : {message.from_user.id}\nDC ID : {message.from_user.dc_id}\n\nUser ID : {message.from_user.first_name}'),
-          #  reply_markup=reply_markup,
-            quote=True,
-            parse_mode=enums.ParseMode.HTML
-        ) 
+            caption=f'Hello {message.from_user.mention}\n\nYour Verification Completed\n\nUser ID : {message.from_user.id}\nDC ID : {message.from_user.dc_id}\n\nUser ID : {message.from_user.first_name}'))
+          
+          
+     
     elif data.split("-", 1)[0] == "DSTORE":
         await url_verify(client, message)
         sts = await message.reply("<b>Please wait...</b>")
